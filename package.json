@@ -1,0 +1,9 @@
+{
+  "name": "telegram-mini-app-shop",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": ".venv/bin/python -m uvicorn webapp.server:app --host 0.0.0.0 --port 3000 --reload",
+    "start": ".venv/bin/python -m uvicorn webapp.server:app --host 0.0.0.0 --port 3000"
+  }
+}

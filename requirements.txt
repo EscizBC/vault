@@ -1,0 +1,11 @@
+aiogram>=3.15
+fastapi>=0.115
+uvicorn[standard]>=0.32
+sqlalchemy[asyncio]>=2.0
+aiosqlite>=0.20
+asyncpg>=0.30 ; python_version >= "3.10"  # for PostgreSQL in production
+pydantic>=2.9
+pydantic-settings>=2.6
+python-dotenv>=1.0
+python-multipart>=0.0.9
+aiohttp>=3.10

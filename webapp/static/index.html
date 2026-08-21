@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#050505" />
+  <title>MONO — digital goods store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/style.css" />
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+  <div id="cards-rain" aria-hidden="true"></div>
+  <div id="app">
+    <!-- ==================== HOME ==================== -->
+    <section id="view-home" class="view active" aria-label="Product catalog">
+      <h1 class="view-title">Montana Vault</h1>
+      <div class="search-wrap">
+        <input id="search-input" type="search" placeholder="Search products" autocomplete="off" aria-label="Search products" />
+        <span class="search-icon" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        </span>
+      </div>
+      <div id="items-grid" class="grid" role="list"></div>
+      <div id="items-empty" class="empty-state hidden">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <div class="big">Nothing found</div>
+        <div>Try a different search</div>
+      </div>
+    </section>
+
+    <!-- ==================== CART ==================== -->
+    <section id="view-cart" class="view" aria-label="Cart">
+      <h1 class="view-title">Cart</h1>
+      <div id="cart-list" class="cart-list"></div>
+      <div id="cart-empty" class="empty-state hidden">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+        <div class="big">Your cart is empty</div>
+        <div>Add products from the catalog</div>
+      </div>
+      <div id="cart-footer" class="cart-footer hidden">
+        <div class="cart-total-row">
+          <span class="cart-total-label">Total</span>
+          <span id="cart-total" class="cart-total">$0.00</span>
+        </div>
+        <div id="pay-zone">
+          <button id="pay-btn" class="btn btn-primary" type="button">Pay</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== PURCHASES ==================== -->
+    <section id="view-purchases" class="view" aria-label="Purchases">
+      <h1 class="view-title">Purchases</h1>
+      <p class="view-sub">Data for purchased items is available anytime</p>
+      <div id="purchase-list" class="purchase-list"></div>
+      <div id="purchases-empty" class="empty-state hidden">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        <div class="big">No purchases yet</div>
+        <div>Purchased items will appear here</div>
+      </div>
+    </section>
+
+    <!-- ==================== PROFILE ==================== -->
+    <section id="view-profile" class="view" aria-label="Profile">
+      <div class="profile-card">
+        <div class="profile-top">
+          <div id="profile-avatar" class="avatar" aria-hidden="true">?</div>
+          <div class="profile-id-block">
+            <div id="profile-name" class="profile-name">—</div>
+            <div id="profile-username" class="profile-username"></div>
+            <div id="profile-tgid" class="profile-tgid"></div>
+          </div>
+        </div>
+        <div class="balance-row">
+          <span class="balance-label">Balance</span>
+          <span id="profile-balance" class="balance-value">$0.00</span>
+        </div>
+      </div>
+      <div class="profile-actions">
+        <button class="action-btn" type="button" data-open-sheet="topup" style="--i:0">
+          <span class="action-icon" aria-hidden="true">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          </span>
+          Top up balance
+          <span class="chev" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg></span>
+        </button>
+        <button class="action-btn" type="button" data-open-sheet="purchase-history" style="--i:1">
+          <span class="action-icon" aria-hidden="true">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          </span>
+          Purchase history
+          <span class="chev" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg></span>
+        </button>
+        <button class="action-btn" type="button" data-open-sheet="transactions" style="--i:2">
+          <span class="action-icon" aria-hidden="true">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3 4 7l4 4"/><path d="M4 7h16"/><path d="m16 21 4-4-4-4"/><path d="M20 17H4"/></svg>
+          </span>
+          Transaction history
+          <span class="chev" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg></span>
+        </button>
+        <button id="admin-entry" class="action-btn admin-entry hidden" type="button" data-open-sheet="admin" style="--i:3">
+          <span class="action-icon" aria-hidden="true">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.01a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.01a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.01a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </span>
+          Админ-панель
+          <span class="chev" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ==================== BOTTOM NAV ==================== -->
+    <nav class="nav" aria-label="Main navigation">
+      <button class="nav-btn active" type="button" data-view="home" aria-label="Home">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 9.5 9-7 9 7V20a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9.5 22v-7a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v7"/></svg>
+        Home
+      </button>
+      <button class="nav-btn" type="button" data-view="cart" aria-label="Cart">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2.5 3h2.2l2.4 11.2a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 1.95-1.55L21 7H6.1"/></svg>
+        Cart
+        <span id="cart-badge" class="nav-badge" aria-hidden="true">0</span>
+      </button>
+      <button class="nav-btn" type="button" data-view="purchases" aria-label="Purchases">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.5 3.5 6v14a2 2 0 0 0 2 2h13a2 2 0 0 0 2-2V6L18 2.5z"/><path d="M3.5 6h17"/><path d="M15.5 10a3.5 3.5 0 0 1-7 0"/></svg>
+        Purchases
+      </button>
+      <button class="nav-btn" type="button" data-view="profile" aria-label="Profile">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="7.5" r="3.8"/><path d="M5 20.5a7 7 0 0 1 14 0"/></svg>
+        Profile
+      </button>
+    </nav>
+  </div>
+
+  <!-- ==================== BOTTOM SHEET ==================== -->
+  <div id="sheet-backdrop" class="sheet-backdrop"></div>
+  <div id="sheet" class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+    <div class="sheet-grab" aria-hidden="true"></div>
+    <div class="sheet-head">
+      <h2 id="sheet-title" class="sheet-title"></h2>
+      <button id="sheet-close" class="sheet-close" type="button" aria-label="Close">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div id="sheet-body" class="sheet-body"></div>
+  </div>
+
+  <!-- ==================== SUCCESS OVERLAY ==================== -->
+  <div id="success-overlay" class="success-overlay">
+    <div class="success-circle" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path class="success-check" d="M20 6 9 17l-5-5"/></svg>
+    </div>
+    <div id="success-title" class="success-title">Done</div>
+    <div id="success-sub" class="success-sub"></div>
+  </div>
+
+  <div id="toast-wrap" class="toast-wrap" aria-live="polite"></div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
